@@ -14,18 +14,26 @@ Vagrant.configure("2") do |config|
       subconfig.vm.box = VEOS_IMAGE
       subconfig.vm.box_version = VEOS_VERSION
       subconfig.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--groups", "/Calico-Lab"]
-        v.name = "Calico-k8s-veos"
+        v.customize ["modifyvm", :id, "--groups", "/vEOS-Lab"]
+        v.name = "vEOS-k8s-SW"
         v.memory = 4096
         v.cpus = 1
         v.linked_clone = true
+        #v.gui = true
       end
-      subconfig.vm.hostname = "k8s-veos"
       subconfig.vm.synced_folder "./", "/vagrant", disabled: true
-      subconfig.vm.network "private_network", ip: "192.168.10.254"
-      subconfig.vm.network "private_network", ip: "192.168.20.254"
+      subconfig.vm.network "private_network", ip: "192.168.10.254", auto_config: false
+      subconfig.vm.network "private_network", ip: "192.168.20.254", auto_config: false
+      subconfig.vm.provision "shell", inline: <<-SHELL
+        sleep 30
+        FastCli -p 15 -c "configure
+        hostname leaf1a
+        interface Management1
+          ip address 192.168.56.101/24 secondary"
+      SHELL
       subconfig.vm.network "forwarded_port", guest: 22, host: 50000, auto_correct: true, id: "ssh"
-      #subconfig.vm.provision "shell", path: "https://raw.githubusercontent.com/gasida/KANS/main/3/linux_router.sh" 
+      subconfig.vm.provision "shell", path: "https://raw.githubusercontent.com/youwins-lab/KANS/main/veos.sh" 
+      #"https://raw.githubusercontent.com/youwins-lab/KANS/main/Vagrantfile" 
     end
 
 #-----Manager Node
@@ -33,9 +41,9 @@ Vagrant.configure("2") do |config|
       subconfig.vm.box = BOX_IMAGE
       subconfig.vm.box_version = BOX_VERSION
       subconfig.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--groups", "/Calico-Lab"]
+        v.customize ["modifyvm", :id, "--groups", "/vEOS-Lab"]
         v.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
-        v.name = "Calico-k8s-m"
+        v.name = "vEOS-k8s-m"
         v.memory = 2048
         v.cpus = 2
         v.linked_clone = true
@@ -54,9 +62,9 @@ Vagrant.configure("2") do |config|
       subconfig.vm.box = BOX_IMAGE
       subconfig.vm.box_version = BOX_VERSION
       subconfig.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--groups", "/Calico-Lab"]
+        v.customize ["modifyvm", :id, "--groups", "/vEOS-Lab"]
         v.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
-        v.name = "Calico-k8s-w0"
+        v.name = "vEOS-k8s-w0"
         v.memory = 1536
         v.cpus = 2
         v.linked_clone = true
@@ -76,9 +84,9 @@ Vagrant.configure("2") do |config|
       subconfig.vm.box = BOX_IMAGE
       subconfig.vm.box_version = BOX_VERSION
       subconfig.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--groups", "/Calico-Lab"]
+        v.customize ["modifyvm", :id, "--groups", "/vEOS-Lab"]
         v.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
-        v.name = "Calico-k8s-w#{i}"
+        v.name = "vEOS-k8s-w#{i}"
         v.memory = 1536
         v.cpus = 2
         v.linked_clone = true
