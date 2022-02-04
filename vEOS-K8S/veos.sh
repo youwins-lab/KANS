@@ -10,16 +10,14 @@ vlan 10
 !
 interface Ethernet1
 	switchport
-	swtichport access vlan 10
+	switchport access vlan 10
 	no shutdown
 !
 interface Ethernet2
 	no switchport
-	no shutdown
 	ip address 192.168.20.254/24
 !
 interface vlan 10
-	no shutdown
 	ip address 192.168.10.254/24
 !
 ip routing
