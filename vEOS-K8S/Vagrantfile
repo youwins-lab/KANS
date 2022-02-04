@@ -1,3 +1,6 @@
+
+# curl -O https://raw.githubusercontent.com/youwins-lab/KANS/main/vEOS-K8S/Vagrantfile
+
 # Base Image
 BOX_IMAGE = "ubuntu/focal64"
 BOX_VERSION = "20211026.0.0"
@@ -24,16 +27,9 @@ Vagrant.configure("2") do |config|
       subconfig.vm.synced_folder "./", "/vagrant", disabled: true
       subconfig.vm.network "private_network", ip: "192.168.10.254", auto_config: false
       subconfig.vm.network "private_network", ip: "192.168.20.254", auto_config: false
-      subconfig.vm.provision "shell", inline: <<-SHELL
-        sleep 30
-        FastCli -p 15 -c "configure
-        hostname leaf1a
-        interface Management1
-          ip address 192.168.56.101/24 secondary"
-      SHELL
       subconfig.vm.network "forwarded_port", guest: 22, host: 50000, auto_correct: true, id: "ssh"
       subconfig.vm.provision "shell", path: "https://raw.githubusercontent.com/youwins-lab/KANS/main/vEOS-K8S/veos.sh"
-      #"https://raw.githubusercontent.com/youwins-lab/KANS/main/Vagrantfile" 
+      
     end
 
 #-----Manager Node
