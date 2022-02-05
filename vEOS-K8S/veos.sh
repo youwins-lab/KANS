@@ -11,7 +11,6 @@ vlan 10
 interface Ethernet1
 	switchport
 	switchport access vlan 10
-	no shutdown
 !
 interface Ethernet2
 	no switchport
@@ -40,4 +39,3 @@ router bgp 64512
 	network 10.1.1.0/24
 	network 10.1.2.0/24
 "
-

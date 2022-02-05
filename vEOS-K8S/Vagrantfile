@@ -5,7 +5,7 @@
 BOX_IMAGE = "ubuntu/focal64"
 BOX_VERSION = "20211026.0.0"
 
-VEOS_IMAGE = "youwins/vEOS"
+VEOS_IMAGE = "youwins/KANS-SW-OS"
 VEOS_VERSION = "4.24.8M"
 
 # max number of worker nodes
