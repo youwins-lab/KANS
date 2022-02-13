@@ -5,8 +5,7 @@
 BOX_IMAGE = "ubuntu/focal64"
 BOX_VERSION = "20211026.0.0"
 
-VEOS_IMAGE = "youwins/KANS-SW-OS"
-VEOS_VERSION = "4.24.8M"
+VEOS_IMAGE = "vEOS-lab-4.24.8M"
 
 # max number of worker nodes
 N = 2
@@ -15,7 +14,6 @@ Vagrant.configure("2") do |config|
 #-----Router Node
     config.vm.define "k8s-veos" do |subconfig|
       subconfig.vm.box = VEOS_IMAGE
-      subconfig.vm.box_version = VEOS_VERSION
       subconfig.vm.provider "virtualbox" do |v|
         v.customize ["modifyvm", :id, "--groups", "/vEOS-Lab"]
         v.name = "vEOS-k8s-SW"
