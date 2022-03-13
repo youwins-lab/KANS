@@ -25,8 +25,10 @@ echo -e "nameserver 1.1.1.1" > /etc/resolvconf/resolv.conf.d/head
 resolvconf -u
 
 echo "[TASK 7] Setting Local DNS Using Hosts file"
-echo "192.168.10.10 k8s-m" >> /etc/hosts
-for (( i=1; i<=$1; i++  )); do echo "192.168.10.10$i k8s-w$i" >> /etc/hosts; done
+echo "192.168.10.10 k8s-c1-m" >> /etc/hosts
+echo "192.168.20.10 k8s-c2-m" >> /etc/hosts
+for (( i=1; i<=$1; i++  )); do echo "192.168.10.10$i k8s-c1-w$i" >> /etc/hosts; done
+for (( i=1; i<=$1; i++  )); do echo "192.168.20.10$i k8s-c2-w$i" >> /etc/hosts; done
 
 echo "[TASK 8] Install kubectl"
 curl -s -LO https://dl.k8s.io/release/v1.22.7/bin/linux/amd64/kubectl >/dev/null 2>&1
@@ -53,7 +55,7 @@ echo "[TASK 13] Setting Dummy Interface"
 modprobe dummy
 ip link add loop1 type dummy
 ip link set loop1 up
-ip addr add 10.1.1.254/24 dev loop1
+ip addr add 10.1.1.254/32 dev loop1
 
 echo "[TASK 14] Config Quagga Routing Software Suite"
 # quagga logging
@@ -90,11 +92,11 @@ bgp router-id 192.168.10.254
 bgp graceful-restart
 maximum-paths 4
 maximum-paths ibgp 4
-network 10.1.1.0/24
+network 10.1.1.0/32
 neighbor 192.168.10.10  remote-as 64512
 neighbor 192.168.10.101 remote-as 64512
-neighbor 192.168.10.102 remote-as 64512
-neighbor 192.168.20.100 remote-as 64514
+neighbor 192.168.20.10 remote-as 64514
+neighbor 192.168.20.101 remote-as 64514
 !
 line vty
 EOF
