@@ -1,5 +1,5 @@
 
-
+<img src="https://github.com/youwins-lab/KANS/blob/main/Multi-Cluster/Topology.png" width="40%" height="30%" title="Topology" alt="Topology"></img>
 
 # Lab 배포
 ```
@@ -109,12 +109,13 @@ helm upgrade cilium cilium/cilium --version $VERSION \
   --set cluster.name=c2 \
   --set cluster.id=2
 ```
+
 # cilium 파드 재시작 >> 단축키 재설정
 ```
 kubectl -n kube-system rollout restart ds/cilium
 ```
 
-# 설정 확인
+# cilium 설정 확인
 ```
 cilium config view | egrep "bgp|cluster"
 ```
@@ -133,21 +134,21 @@ kubectl get pods -l k8s-app=clustermesh-apiserver \
   -o jsonpath='{range .items[*].spec.containers[*]}{.image}{"\n"}{end}'
 ```
 
-# Clustermesh을 위한 secret 추출
+# Cluster1에서 Clustermesh을 위한 secret 추출
 ```
 git clone https://github.com/cilium/cilium.git
 cd cilium
 contrib/k8s/k8s-extract-clustermesh-nodeport-secret.sh > ../cluster1-secret.json
 ```
 
-# Clustermesh을 위한 secret 추출
+# Cluster2에서 Clustermesh을 위한 secret 추출
 ```
 git clone https://github.com/cilium/cilium.git
 cd cilium
-contrib/k8s/k8s-extract-clustermesh-nodeport-secret.sh > ../cluster1-secret.json
+contrib/k8s/k8s-extract-clustermesh-nodeport-secret.sh > ../cluster2-secret.json
 ```
 
-# Clustermesh 설정
+# Cluster1에서 Clustermesh 설정
 ```
 cd ~
 scp root@k8s-c2-m:/root/cluster2-secret.json ./
