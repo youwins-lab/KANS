@@ -110,7 +110,7 @@ helm upgrade cilium cilium/cilium --version $VERSION \
   --set cluster.id=2
 ```
 
-# cilium 파드 재시작 >> 단축키 재설정
+# cilium 파드 재시작(꼭 필요한가?)
 ```
 kubectl -n kube-system rollout restart ds/cilium
 ```
