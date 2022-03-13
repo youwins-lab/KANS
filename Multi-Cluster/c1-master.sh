@@ -2,8 +2,8 @@
 
 echo ">>>> K8S Controlplane config Start <<<<"
 
-echo "[TASK 1] Initial Kubernetes - Skip Kube-proxy , Pod CIDR 172.16.0.0/16 , API Server 192.168.10.10"
-kubeadm init --skip-phases=addon/kube-proxy --token 123456.1234567890123456 --token-ttl 0 --pod-network-cidr=172.16.0.0/16 --apiserver-advertise-address=192.168.10.10 >/dev/null 2>&1
+echo "[TASK 1] Initial Kubernetes - Skip Kube-proxy , Pod CIDR 10.10.0.0/16 , API Server 192.168.10.10"
+kubeadm init --skip-phases=addon/kube-proxy --token 123456.1234567890123456 --token-ttl 0 --pod-network-cidr=10.10.0.0/16 --apiserver-advertise-address=192.168.10.10 >/dev/null 2>&1
 
 echo "[TASK 2] Setting kube config file"
 mkdir -p $HOME/.kube
